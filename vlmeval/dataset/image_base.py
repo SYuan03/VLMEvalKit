@@ -80,6 +80,9 @@ class ImageBaseDataset:
         update_flag = False
         file_name = url.split('/')[-1]
         data_path = osp.join(data_root, file_name)
+        print('Data path:', data_path)
+        assert file_md5 is None
+        assert osp.exists(data_path)
         if osp.exists(data_path) and (file_md5 is None or md5(data_path) == file_md5):
             pass
         else:

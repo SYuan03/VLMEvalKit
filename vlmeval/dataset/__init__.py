@@ -8,6 +8,7 @@ from .image_mt import MMDUDataset
 from .image_vqa import (
     ImageVQADataset, MathVision, OCRBench, MathVista, LLaVABench, MMVet, MTVQADataset, CustomVQADataset
 )
+from .image_cvqa import CVQADataset
 from .mmbench_video import MMBenchVideo
 from .videomme import VideoMME
 from .utils import *
@@ -18,7 +19,7 @@ from ..smp import *
 IMAGE_DATASET = [
     ImageCaptionDataset, ImageYORNDataset, ImageMCQDataset, ImageVQADataset, MathVision,
     MMMUDataset, OCRBench, MathVista, LLaVABench, MMVet, MTVQADataset,
-    MMLongBench, VCRDataset, MMDUDataset
+    MMLongBench, VCRDataset, MMDUDataset, CVQADataset
 ]
 
 VIDEO_DATASET = [
