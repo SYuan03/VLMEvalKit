@@ -1,0 +1,8 @@
+Model,test_human,test_augmented,Overall
+sharegpt4v_7b,25.76,16.88,21.32
+Yi_VL_34B,17.84,10.16,14.000000000000002
+OmniLMM_12B,24.96,20.48,22.72
+cogvlm2-llama3-chat-19B,20.4,45.68,33.040000000000006
+llava_v1.5_7b,21.2,14.32,17.76
+llava_v1.5_13b,22.88,13.52,18.2
+mPLUG-Owl2,23.36,22.32,22.84

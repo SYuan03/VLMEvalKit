@@ -1,0 +1,12 @@
+Model,Overall
+sharegpt4v_7b,23.71
+Yi_VL_34B,42.77799999999999
+OmniLMM_12B,64.49799999999999
+cogvlm2-llama3-chat-19B,37.422
+idefics_9b_instruct,12.991999999999996
+XComposer,6.83
+llava_v1.5_7b,21.92
+llava_v1.5_13b,32.234
+mPLUG-Owl2,56.35
+InternVL2-8B,77.63
+GPT4o_MINI,67.194
