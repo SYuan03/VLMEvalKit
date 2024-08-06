@@ -1,5 +1,8 @@
 .idea/
 **/*data*/
+eval/*/
+!eval/*.py
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
