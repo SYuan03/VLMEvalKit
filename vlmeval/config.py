@@ -198,6 +198,13 @@ ovis_series = {
     'Ovis1.5-Gemma2-9B': partial(Ovis, model_path='AIDC-AI/Ovis1.5-Gemma2-9B')
 }
 
+mantis_series = {
+    'Mantis-8B-siglip-llama3': partial(Mantis, model_path='TIGER-Lab/Mantis-8B-siglip-llama3'),
+    'Mantis-8B-clip-llama3': partial(Mantis, model_path='TIGER-Lab/Mantis-8B-clip-llama3'),
+    'Mantis-8B-Idefics2': partial(Mantis, model_path='TIGER-Lab/Mantis-8B-Idefics2'),
+    'Mantis-8B-Fuyu': partial(Mantis, model_path='TIGER-Lab/Mantis-8B-Fuyu')
+}
+
 supported_VLM = {}
 
 model_groups = [
@@ -206,6 +213,7 @@ model_groups = [
     xcomposer_series, minigpt4_series, idefics_series, instructblip_series,
     deepseekvl_series, minicpm_series, cogvlm_series, wemm_series,
     cambrian_series, chameleon_series, video_models, ovis_series, vila_series,
+    mantis_series,
 ]
 
 for grp in model_groups:
