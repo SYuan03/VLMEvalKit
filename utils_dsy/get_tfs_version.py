@@ -15,10 +15,10 @@ def get_model_version(model_name):
             return version
     return 'Unknown'
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
     if len(sys.argv) < 2:
-        print("Usage: python get_tfs_version.py [model_name] ...")
+        print('Usage: python get_tfs_version.py [model_name] ...')
         sys.exit(1)
 
     # Handle multiple model names from command line arguments

@@ -414,10 +414,15 @@ def RUN(lvl, model):
         logger.info(f'Running {m} on {datasets}')
         exe = 'python' if m in LARGE_MODELS or m in models['api'] else 'torchrun'
         if m not in models['api']:
-            env = 'latest'
+            env = None
+            env = 'latest' if m in models['latest'] else env
             env = '433' if m in models['4.33.0'] else env
             env = '437' if m in models['4.37.0'] else env
             env = '440' if m in models['4.40.0'] else env
+            if env is None:
+                # Not found, default to latest
+                env = 'latest'
+                logger.warning(f"Model {m} does not have a specific environment configuration. Defaulting to 'latest'.")
             pth = get_env(env)
             if pth is not None:
                 exe = osp.join(pth, 'bin', exe)

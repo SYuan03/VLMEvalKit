@@ -12,7 +12,7 @@ parquet_files = [os.path.join(parquet_dir, f) for f in os.listdir(parquet_dir) i
 
 # 读取并处理所有 Parquet 文件
 dfs = []
-for file in tqdm(parquet_files, desc="Reading Parquet files"):
+for file in tqdm(parquet_files, desc='Reading Parquet files'):
     df = pd.read_parquet(file)
     # 处理'image'列中的图像数据
     if 'image' in df.columns:
@@ -33,17 +33,17 @@ combined_df[['A', 'B', 'C', 'D']] = pd.DataFrame(combined_df['options'].tolist()
 
 
 # 保存前10行到一个小文件
-output_file = './data/CVQA-' + time.strftime("%Y-%m-%d-%H-%M-%S") + '.tsv'
-file_name_10 = "head_10_" + output_file.split('/')[-1]
-combined_df.head(10).to_csv("./data/" + file_name_10, sep='\t', index=False)
+output_file = './data/CVQA-' + time.strftime('%Y-%m-%d-%H-%M-%S') + '.tsv'
+file_name_10 = 'head_10_' + output_file.split('/')[-1]
+combined_df.head(10).to_csv('./data/' + file_name_10, sep='\t', index=False)
 
 # 将整个数据帧以分块方式写入TSV文件
 chunksize = 100
-with tqdm(total=combined_df.shape[0], desc="Writing to TSV file") as pbar:
+with tqdm(total=combined_df.shape[0], desc='Writing to TSV file') as pbar:
     with open(output_file, 'w', newline='', encoding='utf-8') as f:
         combined_df.head(0).to_csv(f, sep='\t', index=False)  # 写入列名
         for i in range(0, combined_df.shape[0], chunksize):
             combined_df.iloc[i:i+chunksize].to_csv(f, sep='\t', index=False, header=False)
             pbar.update(chunksize)
 
-print("Data processing and saving completed.")
+print('Data processing and saving completed.')

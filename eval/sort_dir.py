@@ -26,10 +26,10 @@ def main(base_dir):
         if mod_time:
             mod_time_str = datetime.fromtimestamp(mod_time).strftime('%Y-%m-%d %H:%M:%S')
         else:
-            mod_time_str = "No files found"
-        
-        print(f"{d.ljust(max_dir_length + 4)}: {mod_time_str}")
+            mod_time_str = 'No files found'
 
-if __name__ == "__main__":
-    base_dir = "/cpfs01/user/dingshengyuan/myfork/VLMEvalKit/eval"  # 将此处改为你的目录
+        print(f'{d.ljust(max_dir_length + 4)}: {mod_time_str}')
+
+if __name__ == '__main__':
+    base_dir = '/cpfs01/user/dingshengyuan/myfork/VLMEvalKit/eval'  # 将此处改为你的目录
     main(base_dir)

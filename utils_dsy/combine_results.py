@@ -21,11 +21,11 @@ datasets = ['ChartQA_TEST', 'OCRVQA_TESTCORE', 'TextVQA_VAL']
 
 for dataset in datasets:
     combined_df = pd.DataFrame()
-    
+
     for model in model_folders:
         root_path = f'/cpfs01/shared/llmeval/dhd/mmeval/'
         csv_path = root_path + f'{model}/{model}_{dataset}_acc.csv'
-        
+
         if os.path.exists(csv_path):
             df = pd.read_csv(csv_path)
             df['Model'] = model
@@ -33,5 +33,5 @@ for dataset in datasets:
             cols = ['Model'] + [col for col in df.columns if col != 'Model']
             df = df[cols]
             combined_df = pd.concat([combined_df, df], ignore_index=True)
-    
+
     combined_df.to_csv(f'old_{dataset}_combined.csv', index=False)
