@@ -5,8 +5,7 @@ from vlmeval.smp import *
 # Define valid modes
 MODES = ('dlist', 'mlist', 'missing', 'circular', 'localize', 'check', 'run', 'eval')
 
-CLI_HELP_MSG = \
-    f"""
+CLI_HELP_MSG = f"""
     Arguments received: {str(['vlmutil'] + sys.argv[1:])}. vlmutil commands use the following syntax:
 
         vlmutil MODE MODE_ARGS
@@ -39,23 +38,40 @@ CLI_HELP_MSG = \
 
 dataset_levels = {
     'l1': [
-        ('MMVet', 'gpt-4-turbo_score.csv'), ('MMMU_DEV_VAL', 'acc.csv'),
-        ('MathVista_MINI', 'gpt-4-turbo_score.csv'), ('HallusionBench', 'score.csv'),
-        ('OCRBench', 'score.json'), ('AI2D_TEST', 'acc.csv'), ('MMStar', 'acc.csv'),
-        ('MMBench_V11', 'acc.csv'), ('MMBench_CN_V11', 'acc.csv')
+        ('MMVet', 'gpt-4-turbo_score.csv'),
+        ('MMMU_DEV_VAL', 'acc.csv'),
+        ('MathVista_MINI', 'gpt-4-turbo_score.csv'),
+        ('HallusionBench', 'score.csv'),
+        ('OCRBench', 'score.json'),
+        ('AI2D_TEST', 'acc.csv'),
+        ('MMStar', 'acc.csv'),
+        ('MMBench_V11', 'acc.csv'),
+        ('MMBench_CN_V11', 'acc.csv'),
     ],
     'l2': [
-        ('MME', 'score.csv'), ('LLaVABench', 'score.csv'), ('RealWorldQA', 'acc.csv'),
-        ('MMBench', 'acc.csv'), ('MMBench_CN', 'acc.csv'), ('CCBench', 'acc.csv'),
-        ('SEEDBench_IMG', 'acc.csv'), ('COCO_VAL', 'score.json'), ('POPE', 'score.csv'),
-        ('ScienceQA_VAL', 'acc.csv'), ('ScienceQA_TEST', 'acc.csv'), ('MMT-Bench_VAL', 'acc.csv'),
-        ('SEEDBench2_Plus', 'acc.csv'), ('BLINK', 'acc.csv')
+        ('MME', 'score.csv'),
+        ('LLaVABench', 'score.csv'),
+        ('RealWorldQA', 'acc.csv'),
+        ('MMBench', 'acc.csv'),
+        ('MMBench_CN', 'acc.csv'),
+        ('CCBench', 'acc.csv'),
+        ('SEEDBench_IMG', 'acc.csv'),
+        ('COCO_VAL', 'score.json'),
+        ('POPE', 'score.csv'),
+        ('ScienceQA_VAL', 'acc.csv'),
+        ('ScienceQA_TEST', 'acc.csv'),
+        ('MMT-Bench_VAL', 'acc.csv'),
+        ('SEEDBench2_Plus', 'acc.csv'),
+        ('BLINK', 'acc.csv'),
     ],
     'l3': [
-        ('OCRVQA_TESTCORE', 'acc.csv'), ('TextVQA_VAL', 'acc.csv'),
-        ('ChartQA_TEST', 'acc.csv'), ('DocVQA_VAL', 'acc.csv'), ('InfoVQA_VAL', 'acc.csv'),
-        ('SEEDBench2', 'acc.csv')
-    ]
+        ('OCRVQA_TESTCORE', 'acc.csv'),
+        ('TextVQA_VAL', 'acc.csv'),
+        ('ChartQA_TEST', 'acc.csv'),
+        ('DocVQA_VAL', 'acc.csv'),
+        ('InfoVQA_VAL', 'acc.csv'),
+        ('SEEDBench2', 'acc.csv'),
+    ],
 }
 
 dataset_levels['l12'] = dataset_levels['l1'] + dataset_levels['l2']
@@ -63,33 +79,73 @@ dataset_levels['l23'] = dataset_levels['l2'] + dataset_levels['l3']
 dataset_levels['l123'] = dataset_levels['l12'] + dataset_levels['l3']
 
 models = {
-    '4.33.0': list(qwen_series) + list(xcomposer_series) + [
-        'mPLUG-Owl2', 'flamingov2', 'VisualGLM_6b', 'MMAlaya', 'PandaGPT_13B', 'VXVERSE'
-    ] + list(idefics_series) + list(minigpt4_series) + list(instructblip_series),
-    '4.37.0': [x for x in llava_series if 'next' not in x] + list(internvl_series) + [
-        'TransCore_M', 'emu2_chat', 'MiniCPM-V', 'MiniCPM-V-2', 'OmniLMM_12B',
-    ] + list(xtuner_series) + list(yivl_series) + list(deepseekvl_series) + list(cogvlm_series) + list(cambrian_series),
+    '4.33.0': list(qwen_series)
+    + list(xcomposer_series)
+    + ['mPLUG-Owl2', 'flamingov2', 'VisualGLM_6b', 'MMAlaya', 'PandaGPT_13B', 'VXVERSE']
+    + list(idefics_series)
+    + list(minigpt4_series)
+    + list(instructblip_series),
+    '4.37.0': [x for x in llava_series if 'next' not in x]
+    + list(internvl_series)
+    + [
+        'TransCore_M',
+        'emu2_chat',
+        'MiniCPM-V',
+        'MiniCPM-V-2',
+        'OmniLMM_12B',
+    ]
+    + list(xtuner_series)
+    + list(yivl_series)
+    + list(deepseekvl_series)
+    + list(cogvlm_series)
+    + list(cambrian_series),
     '4.40.0': [
-        'idefics2_8b', 'Bunny-llama3-8B', 'MiniCPM-Llama3-V-2_5', '360VL-70B',
-    ] + list(wemm_series),
-    'latest': ['paligemma-3b-mix-448'] + [x for x in llava_series if 'next' in x]
-    + list(chameleon_series) + list(ovis_series) + list(mantis_series),
-    'api': list(api_models)
+        'idefics2_8b',
+        'Bunny-llama3-8B',
+        'MiniCPM-Llama3-V-2_5',
+        '360VL-70B',
+        'Phi-3-Vision',
+    ]
+    + list(wemm_series),
+    'latest': ['paligemma-3b-mix-448']
+    + [x for x in llava_series if 'next' in x]
+    + list(chameleon_series)
+    + list(ovis_series)
+    + list(mantis_series),
+    'api': list(api_models),
 }
 
 # SKIP_MODELS will be skipped in report_missing and run APIs
 SKIP_MODELS = [
-    'MiniGPT-4-v1-13B', 'instructblip_13b', 'MGM_7B', 'GPT4V_HIGH', 'GPT4V',
-    'flamingov2', 'MiniGPT-4-v1-7B', 'MiniGPT-4-v2', 'PandaGPT_13B',
-    'GeminiProVision', 'Step1V-0701', 'SenseChat-5-Vision',
-    'llava-v1.5-7b-xtuner', 'llava-v1.5-13b-xtuner',
-    'cogvlm-grounding-generalist', 'InternVL-Chat-V1-1',
-    'InternVL-Chat-V1-2', 'InternVL-Chat-V1-2-Plus', 'RekaCore',
-    'llava_next_72b', 'llava_next_110b', 'llava_next_qwen_32b',
+    'MiniGPT-4-v1-13B',
+    'instructblip_13b',
+    'MGM_7B',
+    'GPT4V_HIGH',
+    'GPT4V',
+    'flamingov2',
+    'MiniGPT-4-v1-7B',
+    'MiniGPT-4-v2',
+    'PandaGPT_13B',
+    'GeminiProVision',
+    'Step1V-0701',
+    'SenseChat-5-Vision',
+    'llava-v1.5-7b-xtuner',
+    'llava-v1.5-13b-xtuner',
+    'cogvlm-grounding-generalist',
+    'InternVL-Chat-V1-1',
+    'InternVL-Chat-V1-2',
+    'InternVL-Chat-V1-2-Plus',
+    'RekaCore',
+    'llava_next_72b',
+    'llava_next_110b',
+    'llava_next_qwen_32b',
 ] + list(vila_series)
 
 LARGE_MODELS = [
-    'idefics_80b_instruct', '360VL-70B', 'emu2_chat', 'InternVL2-76B',
+    'idefics_80b_instruct',
+    '360VL-70B',
+    'emu2_chat',
+    'InternVL2-76B',
 ]
 
 
@@ -122,6 +178,7 @@ def MLIST(lvl, size='all'):
 
 def MISSING(lvl):
     from vlmeval.config import supported_VLM
+
     models = list(supported_VLM)
     models = [m for m in models if m not in SKIP_MODELS and osp.exists(m)]
     if lvl in dataset_levels.keys():
@@ -143,7 +200,9 @@ def CIRCULAR(inp):
     while max(data['index']) >= OFFSET:
         OFFSET *= 10
 
-    assert 'E' not in data, 'Currently build_circular only works for up to 4-choice questions'
+    assert (
+        'E' not in data
+    ), 'Currently build_circular only works for up to 4-choice questions'
     data_2c = data[pd.isna(data['C'])]
     data_3c = data[~pd.isna(data['C']) & pd.isna(data['D'])]
     data_4c = data[~pd.isna(data['D'])]
@@ -154,7 +213,7 @@ def CIRCULAR(inp):
     def okn(o, n=4):
         ostr = o.replace(',', ' ')
         osplits = ostr.split()
-        if sum([c in osplits for c in string.ascii_uppercase[:n - 1]]) == n - 1:
+        if sum([c in osplits for c in string.ascii_uppercase[: n - 1]]) == n - 1:
             return False
         olower = o.lower()
         olower = olower.replace(',', ' ')
@@ -204,17 +263,19 @@ def CIRCULAR(inp):
         data['index'] = idx
         return data
 
-    data_all = pd.concat([
-        data_2c,
-        data_3c_y,
-        data_4c_y,
-        remap(data_2c, map_2c[0], OFFSET),
-        remap(data_3c_y, map_3c[0], OFFSET),
-        remap(data_4c_y, map_4c[0], OFFSET),
-        remap(data_3c_y, map_3c[1], OFFSET * 2),
-        remap(data_4c_y, map_4c[1], OFFSET * 2),
-        remap(data_4c_y, map_4c[2], OFFSET * 3),
-    ])
+    data_all = pd.concat(
+        [
+            data_2c,
+            data_3c_y,
+            data_4c_y,
+            remap(data_2c, map_2c[0], OFFSET),
+            remap(data_3c_y, map_3c[0], OFFSET),
+            remap(data_4c_y, map_4c[0], OFFSET),
+            remap(data_3c_y, map_3c[1], OFFSET * 2),
+            remap(data_4c_y, map_4c[1], OFFSET * 2),
+            remap(data_4c_y, map_4c[2], OFFSET * 3),
+        ]
+    )
 
     tgt_file = inp.replace('.tsv', '_CIRC.tsv')
     dump(data_all, tgt_file)
@@ -226,23 +287,16 @@ def CIRCULAR(inp):
 PTH = osp.realpath(__file__)
 IMAGE_PTH = osp.join(osp.dirname(PTH), '../assets/apple.jpg')
 
-msg1 = [
-    IMAGE_PTH,
-    'What is in this image?'
-]
+msg1 = [IMAGE_PTH, 'What is in this image?']
 msg2 = [
     dict(type='image', value=IMAGE_PTH),
-    dict(type='text', value='What is in this image?')
+    dict(type='text', value='What is in this image?'),
 ]
-msg3 = [
-    IMAGE_PTH,
-    IMAGE_PTH,
-    'How many apples are there in these images?'
-]
+msg3 = [IMAGE_PTH, IMAGE_PTH, 'How many apples are there in these images?']
 msg4 = [
     dict(type='image', value=IMAGE_PTH),
     dict(type='image', value=IMAGE_PTH),
-    dict(type='text', value='How many apples are there in these images?')
+    dict(type='text', value='How many apples are there in these images?'),
 ]
 
 
@@ -266,7 +320,10 @@ def decode_img_omni(tup):
     images = toliststr(im)
     paths = toliststr(p)
     if len(images) > 1 and len(paths) == 1:
-        paths = [osp.splitext(p)[0] + f'_{i}' + osp.splitext(p)[1] for i in range(len(images))]
+        paths = [
+            osp.splitext(p)[0] + f'_{i}' + osp.splitext(p)[1]
+            for i in range(len(images))
+        ]
 
     assert len(images) == len(paths)
     paths = [osp.join(root, p) for p in paths]
@@ -321,6 +378,7 @@ def LOCALIZE(fname, new_fname=None):
 
 def RUN(lvl, model):
     import torch
+
     NGPU = torch.cuda.device_count()
     SCRIPT = osp.join(osp.dirname(__file__), '../run.py')
     logger = get_logger('Run Missing')
@@ -356,17 +414,19 @@ def RUN(lvl, model):
         logger.info(f'Running {m} on {datasets}')
         exe = 'python' if m in LARGE_MODELS or m in models['api'] else 'torchrun'
         if m not in models['api']:
-            env = '433'
+            env = 'latest'
+            env = '433' if m in models['4.33.0'] else env
             env = '437' if m in models['4.37.0'] else env
             env = '440' if m in models['4.40.0'] else env
-            env = 'latest' if m in models['latest'] else env
             pth = get_env(env)
             if pth is not None:
                 exe = osp.join(pth, 'bin', exe)
             else:
                 logger.warning(f'Cannot find the env path {env} for model {m}')
         if exe.endswith('torchrun'):
-            cmd = f'{exe} --nproc-per-node={NGPU} {SCRIPT} --model {m} --data {datasets}'
+            cmd = (
+                f'{exe} --nproc-per-node={NGPU} {SCRIPT} --model {m} --data {datasets}'
+            )
         elif exe.endswith('python'):
             cmd = f'{exe} {SCRIPT} --model {m} --data {datasets}'
         os.system(cmd)
@@ -374,13 +434,17 @@ def RUN(lvl, model):
 
 def EVAL(dataset_name, data_file):
     from vlmeval.dataset import build_dataset
+
     logger = get_logger('VLMEvalKit Tool-Eval')
     dataset = build_dataset(dataset_name)
     # Set the judge kwargs first before evaluation or dumping
     judge_kwargs = {'nproc': 4, 'verbose': True}
     if dataset.TYPE in ['MCQ', 'Y/N']:
         judge_kwargs['model'] = 'chatgpt-0125'
-    elif listinstr(['MMVet', 'MathVista', 'LLaVABench', 'MMBench-Video', 'MathVision'], dataset_name):
+    elif listinstr(
+        ['MMVet', 'MathVista', 'LLaVABench', 'MMBench-Video', 'MathVision'],
+        dataset_name,
+    ):
         judge_kwargs['model'] = 'gpt-4-turbo'
     elif listinstr(['MMLongBench', 'MMDU'], dataset_name):
         judge_kwargs['model'] = 'gpt-4o'
@@ -439,8 +503,12 @@ def cli():
         elif args[0].lower() == 'run':
             assert len(args) >= 2
             lvl = args[1]
-            model = args[2] if len(args) > 2 else 'all'
-            RUN(lvl, model)
+            if len(args) == 2:
+                model = 'all'
+                RUN(lvl, model)
+            else:
+                for model in args[2:]:
+                    RUN(lvl, model)
         elif args[0].lower() == 'eval':
             assert len(args) == 3
             dataset, data_file = args[1], args[2]
