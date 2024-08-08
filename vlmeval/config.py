@@ -4,7 +4,7 @@ from functools import partial
 
 PandaGPT_ROOT = None
 MiniGPT4_ROOT = None
-TransCore_ROOT = None
+TransCore_ROOT = '/cpfs01/user/dingshengyuan/models/TransCore-M'
 Yi_ROOT = '/cpfs01/user/dingshengyuan/models/Yi'
 OmniLMM_ROOT = '/cpfs01/user/dingshengyuan/models/MiniCPM-V'
 Mini_Gemini_ROOT = None
