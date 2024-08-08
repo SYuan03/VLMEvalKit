@@ -56,7 +56,7 @@ class ImageMCQDataset(ImageBaseDataset):
         'TaskMeAnything_v1_imageqa_random': (
             'https://huggingface.co/datasets/weikaih/TaskMeAnything-v1-imageqa-random/'
             'resolve/main/TaskMeAnything-v1-imageqa-random.tsv'
-        ),
+        )
     }
 
     DATASET_MD5 = {
@@ -104,7 +104,7 @@ class ImageMCQDataset(ImageBaseDataset):
         'RealWorldQA': '84626adb929047d3ea1c2da2a426f1a4',
         'MLLMGuard_DS': '975fc0dd7119386e198c37d71e274b3f',
         'BLINK': '3b6649b6a662184ea046908e5506260e',
-        'TaskMeAnything_v1_imageqa_random': '93b7290b447ef947f3b3abae5ad4bc1b',
+        'TaskMeAnything_v1_imageqa_random': '023fef69e2ca21827afb77c5ec3bc889'
     }
 
     def build_prompt(self, line):
