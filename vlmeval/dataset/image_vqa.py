@@ -292,8 +292,9 @@ class LLaVABench(ImageBaseDataset):
         )
 
         suffix = '.' + eval_file.split('.')[-1]
-        record_file = eval_file.replace(suffix, '_openai_result' + suffix)
-        score_file = eval_file.replace(suffix, '_score.csv')
+        model = judge_kwargs['model']
+        record_file = eval_file.replace(suffix, f'_{model}_result' + suffix)
+        score_file = eval_file.replace(suffix, f'_{model}_score.csv')
         nproc = judge_kwargs.pop('nproc', 4)
         system_prompt = 'You are a helpful and precise assistant for checking the quality of the answer.'
 
