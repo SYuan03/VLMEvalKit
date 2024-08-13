@@ -54,7 +54,7 @@ dataset_levels = {
     'l3': [
         ('OCRVQA_TESTCORE', 'acc.csv'), ('TextVQA_VAL', 'acc.csv'),
         ('ChartQA_TEST', 'acc.csv'), ('DocVQA_VAL', 'acc.csv'), ('InfoVQA_VAL', 'acc.csv'),
-        ('SEEDBench2', 'acc.csv')
+        ('SEEDBench2', 'acc.csv'), ('MTVQA_TEST', 'acc.json')
     ]
 }
 
@@ -346,6 +346,8 @@ def RUN(lvl, model):
         missing = [x for x in missing if x[0] == model]
     else:
         warnings.warn(f'Invalid model {model}.')
+
+    print(missing)
 
     missing.sort(key=lambda x: x[0])
     groups = defaultdict(list)

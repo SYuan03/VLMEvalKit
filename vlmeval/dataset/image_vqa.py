@@ -293,7 +293,7 @@ class LLaVABench(ImageBaseDataset):
 
         suffix = '.' + eval_file.split('.')[-1]
         model = judge_kwargs['model']
-        record_file = eval_file.replace(suffix, f'_{model}_result' + suffix)
+        record_file = eval_file.replace(suffix, f'_{model}' + suffix)
         score_file = eval_file.replace(suffix, f'_{model}_score.csv')
         nproc = judge_kwargs.pop('nproc', 4)
         system_prompt = 'You are a helpful and precise assistant for checking the quality of the answer.'

@@ -6,6 +6,9 @@ eval/*/
 judge/*/
 !judge/*.py
 
+mmeval/*/
+!mmeval/*.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
