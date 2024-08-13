@@ -100,8 +100,7 @@ class ImageMCQDataset(ImageBaseDataset):
         'AI2D_TEST': '0f593e0d1c7df9a3d69bf1f947e71975',
         'AI2D_TEST_NO_MASK': 'fd8f463634d4fe9fbd23b876e8eea5be',
         'MMStar': 'e1ecd2140806c1b1bbf54b43372efb9e',
-        # 'RealWorldQA': '92321028d2bc29040284b6674721e48f',
-        'RealWorldQA': '84626adb929047d3ea1c2da2a426f1a4',
+        'RealWorldQA': '92321028d2bc29040284b6674721e48f',
         'MLLMGuard_DS': '975fc0dd7119386e198c37d71e274b3f',
         'BLINK': '3b6649b6a662184ea046908e5506260e',
         'TaskMeAnything_v1_imageqa_random': '023fef69e2ca21827afb77c5ec3bc889'
