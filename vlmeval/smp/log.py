@@ -3,7 +3,7 @@ import logging
 logger_initialized = {}
 
 
-def get_logger(name, log_file='output.log', log_level=logging.DEBUG, file_mode='a+'):
+def get_logger(name, log_file=None, log_level=logging.DEBUG, file_mode="a+"):
     logger = logging.getLogger(name)
     if name in logger_initialized:
         return logger
@@ -17,6 +17,7 @@ def get_logger(name, log_file='output.log', log_level=logging.DEBUG, file_mode='
 
     try:
         import torch.distributed as dist
+
         if dist.is_available() and dist.is_initialized():
             rank = dist.get_rank()
         else:
@@ -29,7 +30,8 @@ def get_logger(name, log_file='output.log', log_level=logging.DEBUG, file_mode='
         handlers.append(file_handler)
 
     formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     for handler in handlers:
         handler.setFormatter(formatter)
         handler.setLevel(log_level)

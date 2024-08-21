@@ -168,11 +168,18 @@ class ImageMCQDataset(ImageBaseDataset):
         name_str_map = {'chatgpt-0125': 'openai', 'gpt-4-0125': 'gpt4'}
         name_str = name_str_map[model] if model in name_str_map else model
 
+        # TAG-DSY
+        logger = get_logger('ChatAPI')
+
         if model == 'exact_matching':
             model = None
         elif gpt_key_set():
             model = build_judge(**judge_kwargs)
+            logger.info(f"Using model: {model.model}")
+            assert model.model == "gpt-3.5-turbo-0125", f"MCQ should use api: gpt-3.5-turbo-0125"
             if not model.working():
+                # TAG-DSY
+                logger.error('OPENAI API is not working properly, will use exact matching for evaluation')
                 warnings.warn('OPENAI API is not working properly, will use exact matching for evaluation')
                 warnings.warn(DEBUG_MESSAGE)
                 model = None
