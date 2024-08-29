@@ -36,7 +36,6 @@ CLI_HELP_MSG = \
     GitHub: https://github.com/open-compass/VLMEvalKit
     """  # noqa: E501
 
-
 dataset_levels = {
     'l1': [
         ('MMVet', 'gpt-4-turbo_score.csv'), ('MMMU_DEV_VAL', 'acc.csv'),
@@ -72,40 +71,43 @@ models = {
         'cogvlm-grounding-generalist', 'cogvlm-chat', 'cogvlm2-llama3-chat-19B',
     ] + list(xtuner_series) + list(yivl_series) + list(deepseekvl_series) + list(cambrian_series),
     '4.40.0': [
-        'idefics2_8b', 'Bunny-llama3-8B', 'MiniCPM-Llama3-V-2_5', '360VL-70B', 'Phi-3-Vision',
-    ] + list(wemm_series),
+                  'idefics2_8b', 'Bunny-llama3-8B', 'MiniCPM-Llama3-V-2_5', '360VL-70B', 'Phi-3-Vision',
+              ] + list(wemm_series),
     'latest': ['paligemma-3b-mix-448', 'MiniCPM-V-2_6', 'glm-4v-9b'] + [x for x in llava_series if 'next' in x]
-    + list(chameleon_series) + list(ovis_series) + list(mantis_series),
+              + list(chameleon_series) + list(ovis_series) + list(mantis_series),
     'api': list(api_models)
 }
 
 # SKIP_MODELS will be skipped in report_missing and run APIs
 SKIP_MODELS = [
-    'MGM_7B', 'GPT4V_HIGH', 'GPT4V', 'flamingov2', 'PandaGPT_13B',
-    'GeminiProVision', 'Step1V-0701', 'SenseChat-5-Vision',
-    'llava_v1_7b', 'sharegpt4v_7b', 'sharegpt4v_13b',
-    'llava-v1.5-7b-xtuner', 'llava-v1.5-13b-xtuner',
-    'cogvlm-grounding-generalist', 'InternVL-Chat-V1-1',
-    'InternVL-Chat-V1-2', 'InternVL-Chat-V1-2-Plus', 'RekaCore',
-    'llava_next_72b', 'llava_next_110b', 'MiniCPM-V', 'sharecaptioner', 'XComposer',
-    'VisualGLM_6b', 'idefics_9b_instruct', 'idefics_80b_instruct',
-    'mPLUG-Owl2', 'MMAlaya', 'OmniLMM_12B', 'emu2_chat', 'VXVERSE'
-] + list(minigpt4_series) + list(instructblip_series) + list(xtuner_series) + list(chameleon_series) + list(vila_series)
+                  'MGM_7B', 'GPT4V_HIGH', 'GPT4V', 'flamingov2', 'PandaGPT_13B',
+                  'GeminiProVision', 'Step1V-0701', 'SenseChat-5-Vision',
+                  'llava_v1_7b', 'sharegpt4v_7b', 'sharegpt4v_13b',
+                  'llava-v1.5-7b-xtuner', 'llava-v1.5-13b-xtuner',
+                  'cogvlm-grounding-generalist', 'InternVL-Chat-V1-1',
+                  'InternVL-Chat-V1-2', 'InternVL-Chat-V1-2-Plus', 'RekaCore',
+                  'llava_next_72b', 'llava_next_110b', 'MiniCPM-V', 'sharecaptioner', 'XComposer',
+                  'VisualGLM_6b', 'idefics_9b_instruct', 'idefics_80b_instruct',
+                  'mPLUG-Owl2', 'MMAlaya', 'OmniLMM_12B', 'emu2_chat', 'VXVERSE'
+              ] + list(minigpt4_series) + list(instructblip_series) + list(xtuner_series) + list(
+    chameleon_series) + list(vila_series)
 
 LARGE_MODELS = [
-    'idefics_80b_instruct', '360VL-70B', 'emu2_chat', 'InternVL2-76B',
+    'idefics_80b_instruct', '360VL-70B', 'emu2_chat', 'InternVL2-76B', 'MMAlaya2'
 ]
+
+MULTIPLE_IMAGES_UNSUPPORTED_MODELS = ['MMAlaya2']
 
 
 def completed(m, d, suf):
-    score_file = f'{m}/{m}_{d}_{suf}'
+    score_file = f'outputs/{m}/{m}_{d}_{suf}'
     if osp.exists(score_file):
         return True
     if d == 'MMBench':
-        s1, s2 = f'{m}/{m}_MMBench_DEV_EN_{suf}', f'{m}/{m}_MMBench_TEST_EN_{suf}'
+        s1, s2 = f'outputs/{m}/{m}_MMBench_DEV_EN_{suf}', f'outputs/{m}/{m}_MMBench_TEST_EN_{suf}'
         return osp.exists(s1) and osp.exists(s2)
     elif d == 'MMBench_CN':
-        s1, s2 = f'{m}/{m}_MMBench_DEV_CN_{suf}', f'{m}/{m}_MMBench_TEST_CN_{suf}'
+        s1, s2 = f'outputs/{m}/{m}_MMBench_DEV_CN_{suf}', f'outputs/{m}/{m}_MMBench_TEST_CN_{suf}'
         return osp.exists(s1) and osp.exists(s2)
     return False
 
@@ -127,7 +129,7 @@ def MLIST(lvl, size='all'):
 def MISSING(lvl):
     from vlmeval.config import supported_VLM
     models = list(supported_VLM)
-    models = [m for m in models if m not in SKIP_MODELS and osp.exists(m)]
+    models = [m for m in models if m not in SKIP_MODELS and osp.exists(osp.join('outputs', m))]
     if lvl in dataset_levels.keys():
         data_list = dataset_levels[lvl]
     else:
@@ -135,6 +137,11 @@ def MISSING(lvl):
     missing_list = []
     for f in models:
         for D, suff in data_list:
+            # Skip datasets starting with "MMMU" if the model doesn't support multiple images
+            if f in MULTIPLE_IMAGES_UNSUPPORTED_MODELS and D.startswith('MMMU'):
+                logger = get_logger("MISSING")
+                logger.info(f"Skip dataset {D} for {f} because of unsupporting mulitiple images as input")
+                continue
             if not completed(f, D, suff):
                 missing_list.append((f, D))
     return missing_list
@@ -306,35 +313,39 @@ def RUN(lvl, model):
         warnings.warn(f'Invalid model {model}.')
 
     missing.sort(key=lambda x: x[0])
+    logger.info(f"missing: {missing}")
+    logger.info(f"len: {len(missing)}")
     groups = defaultdict(list)
     for m, D in missing:
         groups[m].append(D)
     for m in groups:
         if m in SKIP_MODELS:
             continue
-        datasets = ' '.join(groups[m])
-        logger.info(f'Running {m} on {datasets}')
-        exe = 'python' if m in LARGE_MODELS or m in models['api'] else 'torchrun'
-        if m not in models['api']:
-            env = None
-            env = 'latest' if m in models['latest'] else env
-            env = '433' if m in models['4.33.0'] else env
-            env = '437' if m in models['4.37.0'] else env
-            env = '440' if m in models['4.40.0'] else env
-            if env is None:
-                # Not found, default to latest
-                env = 'latest'
-                logger.warning(f"Model {m} does not have a specific environment configuration. Defaulting to 'latest'.")
-            pth = get_env(env)
-            if pth is not None:
-                exe = osp.join(pth, 'bin', exe)
-            else:
-                logger.warning(f'Cannot find the env path {env} for model {m}')
-        if exe.endswith('torchrun'):
-            cmd = f'{exe} --nproc-per-node={NGPU} {SCRIPT} --model {m} --data {datasets}'
-        elif exe.endswith('python'):
-            cmd = f'{exe} {SCRIPT} --model {m} --data {datasets}'
-        os.system(cmd)
+        # datasets = ' '.join(groups[m])
+        for datasets in groups[m]:
+            logger.info(f'Running {m} on {datasets}')
+            exe = 'python' if m in LARGE_MODELS or m in models['api'] else 'torchrun'
+            if m not in models['api']:
+                env = None
+                env = 'latest' if m in models['latest'] else env
+                env = '433' if m in models['4.33.0'] else env
+                env = '437' if m in models['4.37.0'] else env
+                env = '440' if m in models['4.40.0'] else env
+                if env is None:
+                    # Not found, default to latest
+                    env = 'latest'
+                    logger.warning(
+                        f"Model {m} does not have a specific environment configuration. Defaulting to 'latest'.")
+                pth = get_env(env)
+                if pth is not None:
+                    exe = osp.join(pth, 'bin', exe)
+                else:
+                    logger.warning(f'Cannot find the env path {env} for model {m}')
+            if exe.endswith('torchrun'):
+                cmd = f'{exe} --nproc-per-node={NGPU} {SCRIPT} --model {m} --data {datasets}'
+            elif exe.endswith('python'):
+                cmd = f'{exe} {SCRIPT} --model {m} --data {datasets}'
+            os.system(cmd)
 
 
 def EVAL(dataset_name, data_file):
